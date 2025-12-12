@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/Azure/azure-sdk-tools/main/tools/spec-gen-sdk/src/types/SwaggerToSdkConfigSchema.json",
+  "advancedOptions": {
+    "createSdkPullRequests": true,
+    "generationCallMode": "one-per-config",
+    "breakingChangeTracking": true
+  },
+  
+  "initOptions": {
+    "initScript": {
+      "path": "pwsh ./eng/scripts/automation_sdk_init.ps1",
+      "logPrefix": "-rust",
+      "stderr": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": "\\[ERROR\\]"
+      },
+      "stdout": {
+        "showInComment": ".*ERROR.*",
+        "scriptError": "\\[ERROR\\]"
+      }
+    }
+  },
+  "generateOptions": {
+    "generateScript": {
+      "path": "pwsh ./eng/scripts/automation_generate.ps1",
+      "logPrefix": "-rust",
+      "stderr": {
+        "showInComment": ".*(\\[ERROR\\]|ExternalError).*",
+        "scriptError": "\\[ERROR\\]"
+      },
+      "stdout": {
+        "showInComment": ".*(Start to|\\[ERROR\\]|: error|(?!0\\b)\\d+ Error\\(s\\)).*",
+        "scriptError": "\\[ERROR\\]"
+      }
+    },
+    "parseGenerateOutput": true
+  },
+  "packageOptions": {
+    "breakingChangeLabel": "CI-BreakingChange-Rust",
+    "breakingChangesLabel": "BreakingChange-Rust-Sdk",
+    "buildScript": {
+      "path": "pwsh ./eng/scripts/build_sdk.ps1"
+    }
+  }
+}
